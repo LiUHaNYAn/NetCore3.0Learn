@@ -1,0 +1,14 @@
+*.log
+*.temp
+/vendor
+/bin/*
+/Bin/*
+/Obj/*
+/Logs/* 
+/NetCore3.0Learn.EfDemo/bin/
+/NetCore3.0Learn.EfDemo/obj/
+/NetCore3.0Learn.API/bin/
+/NetCore3.0Learn.API/obj/
+/NetCore3.0Learn.WebApp/bin/
+/NetCore3.0Learn.WebApp/obj/
+/.idea/

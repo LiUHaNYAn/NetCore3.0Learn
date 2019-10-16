@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCore3.0Learn.WebApp", "NetCore3.0Learn.WebApp\NetCore3.0Learn.WebApp.csproj", "{D2047440-D2CE-4465-93F9-64C36D16F6F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCore3.0Learn.API", "NetCore3.0Learn.API\NetCore3.0Learn.API.csproj", "{46F31C59-68DB-4924-AFB3-2A136A831183}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCore3.0Learn.EfDemo", "NetCore3.0Learn.EfDemo\NetCore3.0Learn.EfDemo.csproj", "{6769287E-58C1-430C-95E4-C13DA27C8314}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D2047440-D2CE-4465-93F9-64C36D16F6F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2047440-D2CE-4465-93F9-64C36D16F6F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2047440-D2CE-4465-93F9-64C36D16F6F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2047440-D2CE-4465-93F9-64C36D16F6F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46F31C59-68DB-4924-AFB3-2A136A831183}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46F31C59-68DB-4924-AFB3-2A136A831183}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46F31C59-68DB-4924-AFB3-2A136A831183}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46F31C59-68DB-4924-AFB3-2A136A831183}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6769287E-58C1-430C-95E4-C13DA27C8314}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6769287E-58C1-430C-95E4-C13DA27C8314}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6769287E-58C1-430C-95E4-C13DA27C8314}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6769287E-58C1-430C-95E4-C13DA27C8314}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
