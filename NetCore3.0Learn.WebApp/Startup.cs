@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NetCore3._0Learn.WebApp.Data;
 using NetCore3._0Learn.WebApp.Data.Repository;
+using NetCore3._0Learn.WebApp.Data.Service;
 
 namespace NetCore3._0Learn.WebApp
 {
@@ -33,6 +34,7 @@ namespace NetCore3._0Learn.WebApp
             services.AddScoped<DbContext,EfDbContext>();
             services.AddScoped(typeof(IRepository<,>), typeof(RepositoryBase<,>));
             services.AddScoped<IDataBase,DataBase>();
+            services.AddScoped<IBlogService, BlogService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
