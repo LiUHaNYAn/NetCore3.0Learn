@@ -26,6 +26,12 @@ namespace NetCore3._0Learn.WebApp.Data.Repository
             dataBase.DbContext.SaveChanges();
         }
 
+        public void AddEntity(List<T> list)
+        {
+             dataBase.DbContext.Set<T>().AddRange(list);
+             dataBase.DbContext.SaveChanges();
+        }
+
         public void Update(T t)
         {
             dataBase.DbContext.Entry(t).State = EntityState.Modified;
