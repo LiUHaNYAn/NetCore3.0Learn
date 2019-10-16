@@ -32,6 +32,7 @@ namespace NetCore3._0Learn.WebApp
                 });
             services.AddScoped<DbContext,EfDbContext>();
             services.AddScoped(typeof(IRepository<,>), typeof(RepositoryBase<,>));
+            services.AddScoped<IDataBase,DataBase>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
