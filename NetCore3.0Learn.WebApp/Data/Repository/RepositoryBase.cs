@@ -40,6 +40,19 @@ namespace NetCore3._0Learn.WebApp.Data.Repository
             dataBase.DbContext.SaveChanges();
         }
 
+        public void Remove(T t)
+        {
+            dataBase.DbContext.Set<T>().Attach(t);
+            dataBase.DbContext.Set<T>().Remove(t);
+            dataBase.DbContext.SaveChanges();
+        }
+        public void Remove(List<T> list)
+        {
+            dataBase.DbContext.Set<T>().AttachRange(list);
+            dataBase.DbContext.Set<T>().RemoveRange(list);
+            dataBase.DbContext.SaveChanges();
+        }
+
         public void Remove(K k)
         {
             var type = typeof(T);
@@ -50,19 +63,38 @@ namespace NetCore3._0Learn.WebApp.Data.Repository
                 k.ToString());
         }
 
+        public void Remove(string tableName, string propName, string propVal)
+        {
+            var sql = "delete  from "+tableName+" where {propName}={0}";
+            dataBase.DbContext.Database.ExecuteSqlRaw(sql, propVal);
+        }
+
+        public void Remove(string tableName, string propName, List<string> propVals)
+        {
+            var condition = propVals.Select(p => "'" + p + "'");
+            var vals = string.Join(",", condition);
+            var sql = "delete  from "+tableName+" where {propName} in ({0})";
+            dataBase.DbContext.Database.ExecuteSqlRaw(sql, vals);
+        }
+
         public void ExecuteSql(string sql, params object[] parameters)
         {
             dataBase.DbContext.Database.ExecuteSqlRaw(sql, parameters);
         }
 
-        public T GetModel(K key)
-        {
+        public T FindEntity(K key)
+        { 
             var type = typeof(T);
             var name = type.Name + "s";
             var attrs = type.GetCustomAttribute(typeof(TableAttribute)) as TableAttribute;
             if (attrs != null && string.IsNullOrEmpty(attrs.Name)) name = attrs.Name;
             return dataBase.DbContext.Set<T>().FromSqlRaw("select * from " + name + " where Id={0}",
                 key.ToString()).FirstOrDefault();
+        }
+
+        public T FindEntity(Expression<Func<T, bool>> expression)
+        {
+            return dataBase.DbContext.Set<T>().FirstOrDefault(expression);
         }
 
         public IQueryable<T> GetList(Expression<Func<T, bool>> expression)
