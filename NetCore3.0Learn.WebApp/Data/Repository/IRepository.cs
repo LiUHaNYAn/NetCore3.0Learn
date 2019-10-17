@@ -12,13 +12,16 @@ namespace NetCore3._0Learn.WebApp.Data.Repository
     public interface IRepository<T, K> where T : EntityBase<K>
     {
         void AddEntity(T t);
-        void AddEntity(List<T> list); 
+        void AddEntity(List<T> list);
+        void BulkAddEntity(List<T> list);
         void Update(T t);
         void Remove(T t);
         void Remove(List<T> list);
         void Remove(K k);
         void Remove(string tableName, string propName, string propVal);
         void Remove(string tableName, string propName, List<string> propVals);
+        void BulkRemove(Expression<Func<T, bool>> expression);
+        
         void ExecuteSql(string sql, params object[] paramList);
         IQueryable<T> GetList(Expression<Func<T, bool>> expression);
         T FindEntity(K key);

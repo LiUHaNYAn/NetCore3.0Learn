@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
 using NetCore3._0Learn.WebApp.Data.Common;
 using NetCore3._0Learn.WebApp.Data.Model;
@@ -32,6 +34,10 @@ namespace NetCore3._0Learn.WebApp.Data.Repository
         {
             dataBase.DbContext.Set<T>().AddRange(list);
             dataBase.DbContext.SaveChanges();
+        }
+        public void BulkAddEntity(List<T> list)
+        {
+             dataBase.DbContext.BulkInsert(list); 
         }
 
         public void Update(T t)
@@ -75,6 +81,11 @@ namespace NetCore3._0Learn.WebApp.Data.Repository
             var vals = string.Join(",", condition);
             var sql = "delete  from "+tableName+" where {propName} in ({0})";
             dataBase.DbContext.Database.ExecuteSqlRaw(sql, vals);
+        }
+
+        public void BulkRemove(Expression<Func<T, bool>> expression)
+        {
+             dataBase.DbContext.Set<T>().Where(expression).BatchDelete(); 
         }
 
         public void ExecuteSql(string sql, params object[] parameters)
