@@ -20,6 +20,7 @@ namespace NetCore3._0Learn.WebApp.Data.Service
         {
             var data=_blogRepository.GetModel(Guid.Parse("CABC53ED-91E5-4CD3-9BDE-038EDE9209B6"));
             _blogRepository.AddEntity(new Blog {Id = Guid.NewGuid(), CreateTime = DateTime.Now, Title = "2fsfsd"});
+            var dataset=_blogRepository.FindDataSet("select * from blogs;select * from posts");
             DataBase.BeginTran();
             var blogid = Guid.NewGuid();
 //            postRepository.AddEntity(new Post {Id = Guid.NewGuid(), Title = "demo176FF941-7 ",BlogId = blogid});

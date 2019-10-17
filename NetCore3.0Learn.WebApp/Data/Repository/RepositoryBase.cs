@@ -1,35 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
+using NetCore3._0Learn.WebApp.Data.Common;
 using NetCore3._0Learn.WebApp.Data.Model;
 
 namespace NetCore3._0Learn.WebApp.Data.Repository
 {
     public class RepositoryBase<T, K> : IRepository<T, K> where T : class, EntityBase<K>
     {
-       
         private readonly IDataBase dataBase;
 
         public RepositoryBase(IDataBase dataBase)
         {
-            this.dataBase = dataBase; 
-            Console.WriteLine("database:"+dataBase.GetHashCode());
+            this.dataBase = dataBase;
+            Console.WriteLine("database:" + dataBase.GetHashCode());
         }
+
         public void AddEntity(T t)
-        { 
+        {
             dataBase.DbContext.Entry(t).State = EntityState.Added;
             dataBase.DbContext.SaveChanges();
         }
 
         public void AddEntity(List<T> list)
         {
-             dataBase.DbContext.Set<T>().AddRange(list);
-             dataBase.DbContext.SaveChanges();
+            dataBase.DbContext.Set<T>().AddRange(list);
+            dataBase.DbContext.SaveChanges();
         }
 
         public void Update(T t)
@@ -59,7 +61,7 @@ namespace NetCore3._0Learn.WebApp.Data.Repository
             var name = type.Name + "s";
             var attrs = type.GetCustomAttribute(typeof(TableAttribute)) as TableAttribute;
             if (attrs != null && string.IsNullOrEmpty(attrs.Name)) name = attrs.Name;
-           return dataBase.DbContext.Set<T>().FromSqlRaw("select * from " + name + " where Id={0}",
+            return dataBase.DbContext.Set<T>().FromSqlRaw("select * from " + name + " where Id={0}",
                 key.ToString()).FirstOrDefault();
         }
 
@@ -68,14 +70,34 @@ namespace NetCore3._0Learn.WebApp.Data.Repository
             return dataBase.DbContext.Set<T>().Where(expression);
         }
 
-     
 
-        public List<T> PagerList(Expression<Func<T,bool>> expression,Expression<Func<T,bool>> orderExpression,int limit,int offset,out int total)
+        public List<T> PagerList(Expression<Func<T, bool>> expression, Expression<Func<T, bool>> orderExpression,
+            int limit, int offset, out int total)
         {
             var data = dataBase.DbContext.Set<T>().Where(expression).OrderByDescending(orderExpression)
                 .Skip(offset).Take(limit);
-              total = dataBase.DbContext.Set<T>().Count(expression);
-              return data.ToList();
+            total = dataBase.DbContext.Set<T>().Count(expression);
+            return data.ToList();
+        }
+
+        public DataTable FindTable(string sql, params IDbDataParameter[] parameters)
+        {
+            var conn = dataBase.DbContext.Database.GetDbConnection();
+            var cmd = conn.CreateCommand();
+            cmd.CommandText = sql;
+            cmd.Parameters.AddRange(parameters);
+            if (conn.State == ConnectionState.Closed) conn.Open();
+            return DataConvert.ConvertDataReaderToDataTable(cmd.ExecuteReader());
+        }
+
+        public DataSet FindDataSet(string sql, params IDbDataParameter[] parameters)
+        {
+            var conn = dataBase.DbContext.Database.GetDbConnection();
+            var cmd = conn.CreateCommand();
+            cmd.CommandText = sql;
+            cmd.Parameters.AddRange(parameters);
+            if (conn.State == ConnectionState.Closed) conn.Open();
+            return DataConvert.ConvertDataReaderToDataSet(cmd.ExecuteReader());
         }
     }
 }
